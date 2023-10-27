@@ -1,22 +1,26 @@
 import { ethers } from "hardhat";
 
+const CHAINLINK_TOKEN = "0x84b9B910527Ad5C03A9Ca831909E21e236EA7b06"
+const CHAINLINK_ORACLE = "0xCC79157eb46F5624204f47AB42b3906cAA40eaB7"
+
 async function main() {
-  const currentTimestampInSeconds = Math.round(Date.now() / 1000);
-  const unlockTime = currentTimestampInSeconds + 60;
+  const usdc = await ethers.deployContract("FakeUSDC");
+  await usdc.waitForDeployment();
 
-  const lockedAmount = ethers.parseEther("0.001");
+  console.log("FakeUSDC", await usdc.getAddress())
 
-  const lock = await ethers.deployContract("Lock", [unlockTime], {
-    value: lockedAmount,
-  });
+  const oracle = await ethers.deployContract("LandPriceOracle", [ CHAINLINK_TOKEN, CHAINLINK_ORACLE ]);
+  await oracle.waitForDeployment();
 
-  await lock.waitForDeployment();
+  console.log("LandPriceOracle", await oracle.getAddress())
+  
+  const exchange = await ethers.deployContract("LandPriceExchange", [
+    await oracle.getAddress(),
+    await usdc.getAddress(),
+  ]);
+  await exchange.waitForDeployment();
 
-  console.log(
-    `Lock with ${ethers.formatEther(
-      lockedAmount
-    )}ETH and unlock timestamp ${unlockTime} deployed to ${lock.target}`
-  );
+  console.log("LandPriceExchange", await exchange.getAddress())
 }
 
 // We recommend this pattern to be able to use async/await everywhere

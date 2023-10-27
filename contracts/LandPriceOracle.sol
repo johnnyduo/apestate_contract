@@ -62,7 +62,7 @@ contract LandPriceOracle is ChainlinkClient, ConfirmedOwner {
         // Set the URL to perform the GET request on
         req.add(
             "get",
-            "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=ETH&tsyms=USD"
+            string.concat("https://apestate-oracle.chom.dev/data/", landId.toString())
         );
 
         // Set the path to find the desired data in the API response, where the response format is:
@@ -76,7 +76,7 @@ contract LandPriceOracle is ChainlinkClient, ConfirmedOwner {
         //   }
         //  }
         // request.add("path", "RAW.ETH.USD.VOLUME24HOUR"); // Chainlink nodes prior to 1.0.0 support this format
-        req.add("path", "RAW,ETH,USD,VOLUME24HOUR"); // Chainlink nodes 1.0.0 and later support this format
+        req.add("path", "price"); // Chainlink nodes 1.0.0 and later support this format
 
         // Multiply the result by 1000000000000000000 to remove decimals
         int256 timesAmount = 10 ** 18;
@@ -112,5 +112,12 @@ contract LandPriceOracle is ChainlinkClient, ConfirmedOwner {
             link.transfer(msg.sender, link.balanceOf(address(this))),
             "Unable to transfer"
         );
+    }
+
+    function mockPrice(uint256 _landId, uint256 _price) public onlyOwner {
+        price[_landId] = _price;
+        latestFulfill[_landId] = block.timestamp;
+
+        emit RequestPrice(0, _landId, _price);
     }
 }

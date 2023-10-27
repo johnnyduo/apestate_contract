@@ -31,7 +31,7 @@ contract LandPriceExchange is ERC1155("") {
 
   // TODO: How to do BAND Protocol???
   function THBUSD() public view returns(uint256) {
-    return 1 ether;
+    return 0.028 ether;
   }
 
   function priceExpiration(uint256 landId) public view returns(uint256) {
