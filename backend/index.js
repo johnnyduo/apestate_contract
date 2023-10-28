@@ -7,10 +7,10 @@ app.get('/data/:landId', (req, res) => {
   let price;
 
   switch (parseInt(req.params.landId)) {
-    case 1: price = ethers.parseEther("100"); break;
-    case 2: price = ethers.parseEther("200"); break;
-    case 3: price = ethers.parseEther("300"); break;
-    case 4: price = ethers.parseEther("400"); break;
+    case 1: price = 100; break;
+    case 2: price = 200; break;
+    case 3: price = 300; break;
+    case 4: price = 400; break;
   }
 
   if (!price) {
@@ -18,7 +18,7 @@ app.get('/data/:landId', (req, res) => {
   }
 
   res.send({
-    price: price.toString(),
+    price: price,
   })
 })
 
