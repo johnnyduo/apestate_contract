@@ -101,6 +101,6 @@ contract LandPriceExchange is ERC1155("") {
     require(msg.sender == position.borrower, "Not Borrower");
 
     _burn(msg.sender, position.landId, position.share);
-    baseAsset.transfer(msg.sender, position.asset + position.asset * BORROW_INTEREST / 100);
+    baseAsset.transfer(msg.sender, position.asset - position.asset * BORROW_INTEREST / 10000);
   }
 }
