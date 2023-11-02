@@ -47,6 +47,7 @@ contract LandPriceExchange is ERC1155("") {
     return oracle.price(landId);
   }
 
+  event Buy(address indexed buyer, uint256 indexed landId, uint256 baseAmount, uint256 landShare);
   function buy(uint256 landId, uint256 baseAmount) public {
     uint256 landPrice = price(landId) * THBUSD() / 1 ether;
     uint256 landShare = baseAmount * 1 ether / landPrice;
@@ -56,8 +57,11 @@ contract LandPriceExchange is ERC1155("") {
 
     _mint(msg.sender, landId, landShare, "");
     baseAsset.transferFrom(msg.sender, address(this), baseAmount);
+
+    emit Buy(msg.sender, landId, baseAmount, landShare);
   }
 
+  event Sell(address indexed buyer, uint256 indexed landId, uint256 baseAmount, uint256 landShare);
   function sell(uint256 landId, uint256 landShare) public {
     uint256 landPrice = price(landId) * THBUSD() / 1 ether;
     uint256 baseAmount = landShare * landPrice / 1 ether;
@@ -67,8 +71,11 @@ contract LandPriceExchange is ERC1155("") {
 
     _burn(msg.sender, landId, landShare);
     baseAsset.transfer(msg.sender, baseAmount);
+
+    emit Sell(msg.sender, landId, baseAmount, landShare);
   }
 
+  event Borrow(address indexed buyer, uint256 indexed landId, uint256 indexed borrowId, uint256 baseAmount, uint256 borrowAmount);
   function borrow(uint256 landId, uint256 baseAmount, uint256 borrowAmount) public returns(uint256 borrowId) {
     uint256 landPrice = price(landId) * THBUSD() / 1 ether;
     uint256 landShare = baseAmount * 1 ether / landPrice;
@@ -88,6 +95,8 @@ contract LandPriceExchange is ERC1155("") {
         share: borrowAmount
       })
     );
+
+    emit Borrow(msg.sender, landId, borrowId, baseAmount, borrowAmount);
   }
 
   function borrowAndSell(uint256 landId, uint256 baseAmount, uint256 borrowAmount) public returns(uint256 borrowId) {
