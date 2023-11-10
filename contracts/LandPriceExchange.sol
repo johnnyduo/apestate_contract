@@ -8,7 +8,7 @@ import "./LandPriceOracle.sol";
 uint256 constant PRICE_EXPIRATION = 3600;
 uint256 constant BUY_FEE = 30;
 uint256 constant BORROW_INTEREST = 100;
-uint256 constant BORROW_RATIO = 8000;
+uint256 constant BORROW_RATIO = 10000;
 
 // Assume we have unlimited liquidity
 contract LandPriceExchange is ERC1155("") {
