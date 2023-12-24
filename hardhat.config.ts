@@ -33,6 +33,11 @@ const config: HardhatUserConfig = {
       chainId: 420,
       accounts: [ PRIVATE_KEY ]
     },
+    bitkub_testnet: {
+      url: "https://rpc-testnet.bitkubchain.io",
+      chainId: 25925,
+      accounts: [ PRIVATE_KEY ]
+    }
   }
 };
 

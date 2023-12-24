@@ -9,7 +9,7 @@ async function main() {
 
   console.log("FakeUSDC", await usdc.getAddress())
 
-  const oracle = await ethers.deployContract("LandPriceOracle", [ CHAINLINK_TOKEN, CHAINLINK_ORACLE ]);
+  const oracle = await ethers.deployContract("LandPriceOracle");
   await oracle.waitForDeployment();
 
   console.log("LandPriceOracle", await oracle.getAddress())

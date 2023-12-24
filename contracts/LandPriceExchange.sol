@@ -43,7 +43,7 @@ contract LandPriceExchange is ERC1155("") {
   }
 
   function price(uint256 landId) public view returns(uint256) {
-    require(!isPriceExpired(landId), "Price Expired");
+    // require(!isPriceExpired(landId), "Price Expired");
     return oracle.price(landId);
   }
 
