@@ -37,6 +37,11 @@ const config: HardhatUserConfig = {
       url: "https://rpc-testnet.bitkubchain.io",
       chainId: 25925,
       accounts: [ PRIVATE_KEY ]
+    },
+    tomo_testnet: {
+      url: "https://rpc.testnet.tomochain.com",
+      chainId: 89,
+      accounts: [ PRIVATE_KEY ]
     }
   }
 };

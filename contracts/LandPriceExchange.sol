@@ -29,9 +29,8 @@ contract LandPriceExchange is ERC1155("") {
     baseAsset = _baseAsset;
   }
 
-  // TODO: How to do BAND Protocol???
-  function THBUSD() public view returns(uint256) {
-    return 0.028 ether;
+  function CURREX() public pure returns(uint256) {
+    return 1 ether;
   }
 
   function priceExpiration(uint256 landId) public view returns(uint256) {
@@ -49,7 +48,7 @@ contract LandPriceExchange is ERC1155("") {
 
   event Buy(address indexed buyer, uint256 indexed landId, uint256 baseAmount, uint256 landShare);
   function buy(uint256 landId, uint256 baseAmount) public {
-    uint256 landPrice = price(landId) * THBUSD() / 1 ether;
+    uint256 landPrice = price(landId) * CURREX() / 1 ether;
     uint256 landShare = baseAmount * 1 ether / landPrice;
 
     // Apply fee
@@ -63,7 +62,7 @@ contract LandPriceExchange is ERC1155("") {
 
   event Sell(address indexed buyer, uint256 indexed landId, uint256 baseAmount, uint256 landShare);
   function sell(uint256 landId, uint256 landShare) public {
-    uint256 landPrice = price(landId) * THBUSD() / 1 ether;
+    uint256 landPrice = price(landId) * CURREX() / 1 ether;
     uint256 baseAmount = landShare * landPrice / 1 ether;
 
     // Apply fee
@@ -77,7 +76,7 @@ contract LandPriceExchange is ERC1155("") {
 
   event Borrow(address indexed buyer, uint256 indexed landId, uint256 indexed borrowId, uint256 baseAmount, uint256 borrowAmount);
   function borrow(uint256 landId, uint256 baseAmount, uint256 borrowAmount) public returns(uint256 borrowId) {
-    uint256 landPrice = price(landId) * THBUSD() / 1 ether;
+    uint256 landPrice = price(landId) * CURREX() / 1 ether;
     uint256 landShare = baseAmount * 1 ether / landPrice;
 
     require(borrowAmount <= landShare * BORROW_RATIO / 10000, "Over borrow ratio");
