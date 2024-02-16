@@ -42,7 +42,12 @@ const config: HardhatUserConfig = {
       url: "https://rpc.testnet.tomochain.com",
       chainId: 89,
       accounts: [ PRIVATE_KEY ]
-    }
+    },
+    blast_testnet: {
+      url: "https://sepolia.blast.io",
+      chainId: 168587773,
+      accounts: [ PRIVATE_KEY ]
+    },
   }
 };
 
